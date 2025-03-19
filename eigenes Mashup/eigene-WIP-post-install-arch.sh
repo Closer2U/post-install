@@ -62,11 +62,11 @@ echo -e "${green}Paketmanager >>>eget<<< installiert."; $r
 # everything with FILES
 # 
 yay -S cups cups-pk-helper imagemagick gparted usbutils
-yay -S fd batcat jq 7z tar which pgrep git base-devel rclone rsync grsync fastfetch findutils grep xclip xkill
+yay -S fd bat jq 7z tar which pgrep git base-devel rclone rsync grsync fastfetch findutils grep xclip xkill
 echo -e "${green}CLI File Tools installiert."; $r
 #fd				- find utility that is easy to use and allows filtering for eg extension or to execute unzip !!! can be used with batcat! fd … -X bat
-# batcat			- better cat
-echo "alias cat='batcat'" >> ~/.aliases
+# bat			- better cat
+echo "alias cat='bat'" >> ~/.aliases
 # jq 				- parse json files
 # rclone			- reliable copy utility
 
@@ -158,10 +158,10 @@ mkdir zsh && cd zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 echo -e "--- ${green}Installiere autosuggestion."; $r
 cd ..
-git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git $ZSH_CUSTOM/plugins/zsh-autocomplete
+it clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autocomplete  
 echo -e "--- ${green}Installiere autocompletion."; $r
 cd ..
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting  
 echo -e "--- ${green}Installiere syntax highlighting."; $r
 git clone https://github.com/akash329d/zsh-alias-finder ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-alias-finder
 sed -i -e 's/plugins=(/plugins=(zsh-alias-finder zsh-autosuggestions zsh-autocompletion zsh-syntax-highlighting /g' ~/.zshrc
@@ -344,7 +344,7 @@ alias hg="history | grep "
 #######################
 ## Program shorthands
 alias cht="cht.sh"
-alias cat="batcat"
+alias cat="bat"
 
 EOT
 
@@ -360,5 +360,4 @@ EOT
 #       Dotfiles
 # ==================================================
 #dotfiles
-
 
