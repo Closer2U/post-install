@@ -1,0 +1,25 @@
+- [x] best of both worlds
+    - von HyDe
+        - package list siehe flatpak ist übersichtlicher
+        - Config files sind besser sortiert
+    - von archlinux
+        - Scripte gut sortiert
+        - delete all /install --> nicht ausversehen EFI ändern
+
+- [ ] so schreiben, dass auch mit eg nala funktioniert
+- [ ] package listen hübsch machen wie hyde 
+- [ ] script entsprechend anpassen, dass "#" entfernt
+- [ ] Package lists aus joplin extrahieren und sortiert hinzufügen
+- [ ] eigene list anlegen
+    - [ ] script schreiben, die auch die curl Installationen abhandelt
+
+
+- [ ] .aliases anlegen -> jeweils nur echo >> (sourcen dieser File in zshrc/bashrc) --> makes it universal
+
+- Configs
+    - [ ] Joplin
+    - [ ] VSCode
+  
+
+- simplify and practically only take the part that installs from package list files
+
