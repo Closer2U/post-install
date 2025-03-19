@@ -62,7 +62,7 @@ echo -e "${green}Paketmanager >>>eget<<< installiert."; $r
 # everything with FILES
 # 
 yay -S cups cups-pk-helper imagemagick gparted usbutils
-yay -S fd batcat jq 7z tar which pgrep git base-devel rclone rsync grsync fastfetch findutils grep
+yay -S fd batcat jq 7z tar which pgrep git base-devel rclone rsync grsync fastfetch findutils grep xclip xkill
 echo -e "${green}CLI File Tools installiert."; $r
 #fd				- find utility that is easy to use and allows filtering for eg extension or to execute unzip !!! can be used with batcat! fd … -X bat
 # batcat			- better cat
