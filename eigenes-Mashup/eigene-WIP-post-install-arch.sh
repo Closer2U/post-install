@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 green='\e[32m' 			          # Coloured echo (Green)
 yellow=$'\033[38;5;11m' 	    # Coloured echo (yellow)
@@ -276,10 +276,23 @@ yay -Sy flameshot
 #install via flatpak list
 
 # ====================================================================================================
+#       CLEANUP
+# ====================================================================================================
+sudo pacman -Qdtq | pacman -Rns -		# removing orphanes
+sudo pacman -Qqd | pacman -Rsu --print -
+yay -Yc
+yay -Ps						# system health
+
+
+# handle abort on flatpak or additional packages
+function continue_execution () {
+    [ -z $1 ] && { flatpaks; extras; aliascreation; testing; } || $1
+}
+# ====================================================================================================
 #       INSTALL from pkg_*.lst
 # ====================================================================================================
 ### flatpak
-function install_flatpaks () {
+function flatpaks () {
     scrDir="functions"
     baseDir="packages"
     source "${scrDir}/global_fn.sh"
@@ -292,15 +305,6 @@ function install_flatpaks () {
         sudo pacman -S flatpak
     fi
 
-    while true; do
-        read -p "Did you comment-out those flatpak packages you do NOT wish to install? " yn
-        case $yn in
-            [Yy]* ) install_flats ;;
-            [Nn]* ) echo 'Please do so now and start the script again afterwards.' && return;;
-            * ) echo "Please answer yes or no.";;
-        esac
-    done
-
     function install_flats () {
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         flats=$(awk -F '#' '{print $1}' "${baseDir}/pkg_flat.lst" | sed 's/ //g' | xargs)
@@ -308,20 +312,40 @@ function install_flatpaks () {
         flatpak install --user -y flathub ${flats}
         flatpak remove --unused
     }
-    install_flats
+
+    while true; do
+        read -p "Did you comment-out those flatpak packages you do NOT wish to install? " yn
+        case $yn in
+            [Yy]* ) install_flats ;;
+            [Nn]* ) echo 'Please do so now and start the script again with the parameter "flatpaks".' && return;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
 }
-install_flatpaks
+flatpaks
 
 ### additional resources that go beyond this core installation
 
-# ====================================================================================================
-#       CLEANUP
-# ====================================================================================================
-sudo pacman -Qdtq | pacman -Rns -		# removing orphanes
-sudo pacman -Qqd | pacman -Rsu --print -
-yay -Yc
-yay -Ps						# system health
+function extras () {
+    function install_extra_packages() {
+        source packages/pkg_multiline.lst.sh
+    }
+    while true; do
+        read -p "Did you comment-out those packages you do NOT wish to install? " yn
+        case $yn in
+            [Yy]* ) install_extra_packages ;;
+            [Nn]* ) echo 'Please do so now by editing the file "/packages/pkg_multiline.lst.sh" and start the script again with the parameter "extras".' && return;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+}
+extras
 
+function testing () {
+    echo "test successfull"
+}
+
+function aliascreation () {
 # ====================================================================================================
 #       ALIAS bzw. .bashrc/.zshrc
 # ====================================================================================================
@@ -458,7 +482,10 @@ alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
 alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
 
 EOT
+}
+aliascreation
 
+continue_execution "$@"
 # ====================================================================================================
 #       Dotfiles
 # ====================================================================================================
