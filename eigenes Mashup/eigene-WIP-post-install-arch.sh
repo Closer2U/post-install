@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/bash -e
 
 green='\e[32m' 			    # Coloured echo (Green)
-yellow=$'\033[38;5;11m' 	# Coloured echo (yellow)
+yellow=$'\033[38;5;11m' 	    # Coloured echo (yellow)
 red=$'\033[0;31m'		    # Coloured echo (red)
-r='tput sgr0' 		     	# Reset colour after echo
+r='tput sgr0' 		            # Reset colour after echo
 
 # ------------------------------------------- // Initial Setup
 loadkeys de				# set keyboard

@@ -6,9 +6,18 @@ io.missioncenter.MissionCenter                 # MissionCenter
 io.gitlab.adhami3310.Impression                # Impression
 # com.usebottles.bottles                       # Bottles
 # io.github.dimtpap.coppwr                     # Coppwr
+io.github.plrigaux.sysd-manager		       # gui systemd service manager
+
+# ------------------------------------------- // Virtualization
+io.podman_desktop.PodmanDesktop
+io.github.dvlv.boxbuddyrs
+org.gnome.Boxes
+
+# ------------------------------------------- // Security
+com.protonvpn.www
 
 # ------------------------------------------- // Browser
-# com.brave.Browser                              # Brave
+# com.brave.Browser                            # Brave
 # org.torproject.torbrowser-launcher           # Tor
 
 # ------------------------------------------- // Social
@@ -21,6 +30,8 @@ io.github.spacingbat3.webcord                  # Webcord
 # md.obsidian.Obsidian                         # Obsidian
 # org.mozilla.Thunderbird                      # Thunderbird
 # io.github.alainm23.planify                   # Planify
+io.kapsa.drive				       # Manage Clouddrives (Koofr...)
+com.gitbutler.gitbutler			       # git client with AI
 
 # ------------------------------------------- // Image/Graphics
 org.inkscape.Inkscape                          # Inkscape
