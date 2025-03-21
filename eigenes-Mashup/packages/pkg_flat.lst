@@ -9,9 +9,9 @@ io.gitlab.adhami3310.Impression                # Impression
 io.github.plrigaux.sysd-manager		       # gui systemd service manager
 
 # ------------------------------------------- // Virtualization
-io.podman_desktop.PodmanDesktop
-io.github.dvlv.boxbuddyrs
-org.gnome.Boxes
+io.podman_desktop.PodmanDesktop                # better docker -> run containers without root
+io.github.dvlv.boxbuddyrs                      # GUI for managing distroboxes
+org.gnome.Boxes                                # super simple VMWare
 
 # ------------------------------------------- // Security
 com.protonvpn.www
@@ -30,8 +30,8 @@ io.github.spacingbat3.webcord                  # Webcord
 # md.obsidian.Obsidian                         # Obsidian
 # org.mozilla.Thunderbird                      # Thunderbird
 # io.github.alainm23.planify                   # Planify
-io.kapsa.drive				       # Manage Clouddrives (Koofr...)
-com.gitbutler.gitbutler			       # git client with AI
+io.kapsa.drive				                   # Manage Clouddrives (Koofr...)
+com.gitbutler.gitbutler			               # git client with AI
 
 # ------------------------------------------- // Image/Graphics
 org.inkscape.Inkscape                          # Inkscape
