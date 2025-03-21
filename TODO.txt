@@ -1,3 +1,5 @@
+- [ ] flatpaks auslagern und aus separater Datei installieren
+
 - [x] best of both worlds
     - von HyDe
         - package list siehe flatpak ist übersichtlicher
