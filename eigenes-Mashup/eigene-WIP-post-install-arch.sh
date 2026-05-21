@@ -5,7 +5,7 @@ yellow=$'\033[38;5;11m' 	    # Coloured echo (yellow)
 red=$'\033[0;31m'		          # Coloured echo (red)
 r='tput sgr0' 		            # Reset colour after echo
 
-# ------------------------------------------- // Initial Setup
+# ------------------------------------------- // Initial Setup for Arch
 loadkeys de				            # set keyboard
 sudo pacman -Syyu --noconfirm 		      # update
 sudo pacman -S archlinux-keyring && \   # if update fails add keyrings
@@ -68,7 +68,7 @@ echo -e "${green}CLI File Tools installiert."; $r
 echo "alias cat='bat'" >> ~/.aliases
 # jq 				            - parse json files
 # rclone			            - reliable copy utility
-# cups              
+           
 
 
 ############################
@@ -134,31 +134,12 @@ echo -e "${green}CLI TUI App >>>btop<<< installiert."; $r
 #
 #################
 # ohmyzsh 			            - better shell
-sudo pacman -S zsh fonts-powerline
-#curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-sh -c "$(curl -fsSL https://install.ohmyz.sh/)"
-echo -e "${green}Installiere zsh."; $r
-chsh -s $(which zsh)
-echo -e "--- ${green}Setze zsh als default shell."; $r
-echo $0
-cd ${HOME}/Apps/Tools
-mkdir zsh && cd zsh
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-echo -e "--- ${green}Installiere autosuggestion."; $r
-cd ..
-it clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autocomplete  
-echo -e "--- ${green}Installiere autocompletion."; $r
-cd ..
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting  
-echo -e "--- ${green}Installiere syntax highlighting."; $r
-git clone https://github.com/akash329d/zsh-alias-finder ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-alias-finder
-sed -i -e 's/plugins=(/plugins=(zsh-alias-finder zsh-autosuggestions zsh-autocompletion zsh-syntax-highlighting /g' ~/.zshrc
-echo -e "--- ${green}Installiere zsh alias finder."; $r
-sed -i -e 's/`cat ~/.zshrc | grep ZSH_THEME`/ZSH_THEME="jonathan"/g' ~/.zshrc
-# wget -O ~/.oh-my-zsh/themes/kali-like.zsh-theme https://raw.githubusercontent.com/clamy54/kali-like-zsh-theme/master/kali-like.zsh-theme
-#sed -i -e 's/`cat ~/.zshrc | grep ZSH_THEME`/ZSH_THEME="kali-like"/g' ~/.zshrc
-echo -e "--- ${green}Wechsle zsh theme. Auskommentiert ist kali."; $r
-source ~/.zshrc
+## --> outsourced to /functions/restore_zsh.sh
+source /functions/restore_zsh.sh
+bash /functions/restore_zsh.sh
+# TODO take scripts from restore_shl.sh und siehe restore_zsh.lst
+#   alternativ: dogrocker/oh-my-zsh-with...(gist) 
+#   alternativ: MNMaqsood/oh-my-zsh-installer
 
 # pywal 			      	    - this tool that adjusts terminal colors to background image
 yay -S python-pywal
@@ -172,21 +153,10 @@ wal -i .local/share/backgrounds
 yay -SY visual-studio-code-bin 
 
 # Devpod 		      	      - Codespaces, but local in Podman 
-##  outsourced to pkg_multiline.lst
+## --> outsourced to /packages/pkg_multiline.lst
 
-###################
 # setup podman wrapper for vscode in distrobox
-curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/extras/podman-host -o ~/.local/bin/podman-host
-chmod +x ~/.local/bin/podman-host
-curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/extras/vscode-distrobox -o ~/.local/bin/vscode-distrobox
-chmod +x ~/.local/bin/vscode-distrobox
-echo "alias code-distro='echo vscode-distrobox my-distrobox /path/to/project'" >> ~/.aliases
-echo -e "${yellow}=========================================================================================================================================="; $r
-echo -e "${green}Podman Wrapper für VSCode development via distrobox gesetzt."; $r
-echo -e "--- ${yellow}In VSCode bitte >ext install ms-vscode-remote.remote-containers< installieren."
-echo -e "--- ${yellow}In VSCode bitte 'Remote>Containers>Docker Path' aufrufen und '/home/<your-user>/.local/bin/podman-host' setzen.\nSiehe https://distrobox.it/posts/integrate_vscode_distrobox/ für Details."; $r
-
-echo -e "${yellow}=========================================================================================================================================="; $r
+## --> outsourced to /packages/pkg_multiline.lst
 
 # ventoy		      	      - live boot utility usb maker
 yay -Sy ventoy
@@ -205,7 +175,7 @@ yay -Sy ventoy
 # 
 #################
 # Podman 		      	      - GUI for working with Containerfiles, like Docker. Needed for Distrobox
-#install via flatpak list
+## --> outsourced installs via flatpak list
 
 #################
 # distrobox
@@ -213,14 +183,14 @@ yay -Sy ventoy
 ### without sudo
 curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/install | sh -s -- --prefix ~/.local
 ### GUI
-#install via flatpak list
+## --> outsourced installs  via flatpak list
 
 #################
 # VMware 		      	      - free licence professional "VirtualBox"
-##  outsourced to pkg_multiline.lst
+## --> outsourced to /packages/pkg_multiline.lst
 #
 # gnomeboxes
-#install via flatpak list
+## --> outsourced installs  via flatpak list
 
 # ====================================================================================================
 #       git
@@ -345,147 +315,20 @@ function testing () {
     echo "test successfull"
 }
 
+
 function aliascreation () {
 # ====================================================================================================
 #       ALIAS bzw. .bashrc/.zshrc
 # ====================================================================================================
-#WIP
-cp ${HOME}/.bashrc {HOME}/.bashrc_backup
-[[ -f ${HOME}/.zshrc ]] || cp ${HOME}/.zshrc ${HOME}/.zshrc_backup
-echo -e "${c}Richte .bashrc ein."; $r
 
-cat <<EOT >> .bashrc
-# restore pywal theme
-wal -R && clear
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-EOT
-
-[[ -f ${HOME}/.zshrc ]] || cat <<EOT >> .zshrc
-# restore pywal theme
-wal -R && clear
-
-# enable auto-suggestions based on the history
-if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    # change suggestion color
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
-fi
-
-# enable command-not-found if installed
-if [ -f /etc/zsh_command_not_found ]; then
-    . /etc/zsh_command_not_found
-fi
-
-if [ -f ~/.aliases ]; then
-    . ~/.aliases
-fi
-if [ -f ~/.zsh_alias ]; then
-    . ~/.zsh_alias
-fi
-EOT
-
-cat <<EOT >> .aliases
-#######################
-## PACKAGE MANAGEMENT
-## aliases for install and update + add updates separately for eg zsh, pip3 list --outdated --format=freeze | grep [...]
-
-# universal
-alias update=" if [ $(cat /etc/os-release|grep ID_LIKE| grep debian) ]; then sudo nala update && sudo nala upgrade && sudo nala autoremove && snap refresh && flatpak update -y && pacstall -U && pacstall -Up && am -u && wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash && am -f && pacstall -L && echo '===================================== installed FLATPAKs =====================================' && echo '===================================== installed SNAPs =====================================' && snap list   && echo '===================================== installed FLATPAKs =====================================' && flatpak list; elif [ $(cat /etc/os-release|grep ID| grep arch) ]; then sudo pacman -Su && yay -Su && flatpak update -y && am -u && wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash && sudo pacman -Qdtq | pacman -Rns - && sudo pacman -Qqd | pacman -Rsu --print - && yay -Yc && am -f && echo '===================================== installed FLATPAKs =====================================' && flatpak list; fi"
-
-# for debian based
-#alias update="sudo nala update && sudo nala upgrade && sudo nala autoremove  && snap refresh && flatpak update -y && pacstall -U && pacstall -Up && am -u && wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash && am -f && pacstall -L && echo '===================================== installed FLATPAKs =====================================' && flatpak list && echo '===================================== installed SNAPs =====================================' && snap list" 
-
-# for arch based
-#alias update="sudo pacman -Su && yay -Su && flatpak update -y && am -u && wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash && sudo pacman -Qdtq | pacman -Rns - && sudo pacman -Qqd | pacman -Rsu --print - && yay -Yc && am -f && flatpak list"
-
-########################
-## FILES
-# shortcut for finding files in directory
-alias lsgrep="ls | grep "
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias ll="ls -laht"
-    alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# Pack and Extract Archives
-alias untar="tar -xafv " # Syntax: tar -xaf destinationFileName sourceFileName
-alias maxcompress="test $# -gt 0 || { echo '    [❗]>> Syntax: maxcompress <output>.7z <in-folder-or-file>/'; sleep 5s && return; } || 7z a -t7z -m0=lzma -mx=9 -mfb=64 -mmt=off -md=128m -bd -bb0 "
-alias tgz="tar -cafv "
-alias targz="tar -cafv "
-alias targz-max="tar -czvf "
-
-### install deb package (debian/ubuntu only)
-alias dbkg-i="cd ~/Downloads && grep '.deb' '$(ls -1rt ~/Downloads | tail -n1)' | xargs -I% sudo dpkg -i '%.deb'"
-
-#######################
-## INTERNET
-alias mtu="ifconfig | grep mtu"                                                       # list mtu sizes
-alias mtu-fix='sudo ifconfig wlp3s0 mtu 1400 up && sudo ifconfig enp0s25 mtu 1400 up' # reduce mtu size to enable stackfield and git at M
-alias myip='curl ipinfo.io/ip'                                                        # Print my public IP
-
-#######################
-## PROCESS MANAGEMENT
-# easier Process identification
-alias psaux="ps aux | grep"
-alias hg="history | grep "
-
-########################
-## PROGRAM SHORTHANDS
-alias cht="cht.sh"
-alias cat="bat"
-
-########################
-## CLIPBOARD HANDLING
-# easier copying from clipboard esp. file output
-# Bsp: pwd | c
-alias "c=xclip -selection clipboard" # copy to system wide clipboard (register +)"
-
-########################
-## NAVIGATION
-
-
-######################
-## SERVICES
-# list all active Services
-alias lsservice="service --status-all"
-
-######################
-## MISC
-# git
-alias git-sort-size="git rev-list --objects --all --missing=print |   git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |   sed -n 's/^blob //p' |   sort --numeric-sort --key=2 |   cut -c 1-12,41- |   $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest"
-
-EOT
-
-[[ -f ${HOME}/.zshrc_alias ]] || cat <<EOT >> .zshrc_alias
-
-# colorized help messages via bat
-alias -g -- -h='-h 2>&1 | bat --language=help --style=plain'
-alias -g -- --help='--help 2>&1 | bat --language=help --style=plain'
-
-EOT
+# --> outourced to /functions/alias-creation.sh
+        source "functions/alias-creation.sh"
+        bash functions/alias-creation.sh
 }
 aliascreation
 
 continue_execution "$@"
+
 # ====================================================================================================
 #       Dotfiles
 # ====================================================================================================

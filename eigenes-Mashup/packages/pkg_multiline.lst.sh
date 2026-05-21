@@ -39,6 +39,20 @@ function devpod () {
     echo -e "${green}Devpod installiert."; $r
 }
 
+## setup podman wrapper for vscode in distrobox
+curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/extras/podman-host -o ~/.local/bin/podman-host
+chmod +x ~/.local/bin/podman-host
+curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/extras/vscode-distrobox -o ~/.local/bin/vscode-distrobox
+chmod +x ~/.local/bin/vscode-distrobox
+echo "alias code-distro='echo vscode-distrobox my-distrobox /path/to/project'" >> ~/.aliases
+echo -e "${yellow}=========================================================================================================================================="; $r
+echo -e "${green}Podman Wrapper für VSCode development via distrobox gesetzt."; $r
+echo -e "--- ${yellow}In VSCode bitte >ext install ms-vscode-remote.remote-containers< installieren."
+echo -e "--- ${yellow}In VSCode bitte 'Remote>Containers>Docker Path' aufrufen und '/home/<your-user>/.local/bin/podman-host' setzen.\nSiehe https://distrobox.it/posts/integrate_vscode_distrobox/ für Details."; $r
+
+echo -e "${yellow}=========================================================================================================================================="; $r
+
+
 # VMware 		      	 - free licence professional "VirtualBox"
 function vm_ware() {
     cd ${HOME}/Apps/Tools && mkdir -p Virtualization/VMWare && cd VMWare
